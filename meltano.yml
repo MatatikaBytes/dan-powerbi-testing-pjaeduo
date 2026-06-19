@@ -22,3 +22,9 @@ plugins:
   - name: powerbi
     variant: matatika
     pip_url: git+https://github.com/Matatika/utility-powerbi.git@v0.2.0
+  - name: matatika
+    variant: matatika
+    pip_url: matatika~=1.17.1
+  - name: dbt-artifacts
+    variant: matatika
+    pip_url: git+https://github.com/Matatika/dbt-artifacts-ext.git@v0.1.0
