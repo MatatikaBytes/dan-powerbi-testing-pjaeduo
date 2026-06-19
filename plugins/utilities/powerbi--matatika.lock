@@ -1,0 +1,142 @@
+{
+  "plugin_type": "utilities",
+  "name": "powerbi",
+  "namespace": "powerbi",
+  "variant": "matatika",
+  "label": "Power BI",
+  "docs": "https://www.matatika.com/data-details/powerbi/",
+  "repo": "https://github.com/Matatika/utility-powerbi",
+  "pip_url": "git+https://github.com/Matatika/utility-powerbi.git@v0.2.0",
+  "executable": "powerbi-extension",
+  "description": "Trigger and monitor Power BI semantic-model refreshes as a step in a Meltano pipeline.\n\n### Connect with Microsoft (recommended)\n1. Click **Connect with Microsoft** and consent with an account that has\n   access to the target workspace \u2014 no Azure app registration required.\n\n2. Capture the **Workspace ID** and **Dataset ID** from the Power BI URLs.\n\n### Service principal (unattended alternative)\nFor headless/scheduled use without an interactive login, configure a service principal instead (via API or `meltano.yml`):\n1. Register an application in Azure Active Directory; capture **Tenant ID**,\n   **Client ID**, **Client Secret**.\n\n2. In Power BI Admin Portal \u2192 Tenant settings, enable \"Service principals\n   can use Power BI APIs\" and add the principal (or a security group\n   containing it).\n\n3. Add the principal to each workspace whose datasets you intend to refresh.\n\n### Usage\nAppend `powerbi:refresh` to `pipeline.actions` after your load + transform steps. The command triggers a refresh and waits for completion by default; the pipeline fails if the refresh fails.\n\nFor troubleshooting: `meltano invoke powerbi:status` shows the most recent refresh; `meltano invoke powerbi:history --top 10` lists recent runs.",
+  "logo_url": "/assets/logos/extractors/powerbi.png",
+  "settings": [
+    {
+      "name": "workspace_id",
+      "kind": "string",
+      "label": "Workspace ID",
+      "description": "Power BI workspace (group) ID containing the dataset.",
+      "hidden": false,
+      "sensitive": false,
+      "required": "true",
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "dataset_id",
+      "kind": "string",
+      "label": "Dataset ID",
+      "description": "Power BI dataset (semantic model) ID to refresh.",
+      "hidden": false,
+      "sensitive": false,
+      "required": "true",
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "api_url",
+      "kind": "string",
+      "value": "https://api.powerbi.com/v1.0/myorg",
+      "label": "API URL",
+      "description": "Power BI REST API base URL. Override for sovereign clouds (e.g. `https://api.powerbigov.us/v1.0/myorg`).",
+      "hidden": false,
+      "sensitive": false,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.authorization_url",
+      "kind": "string",
+      "value": "https://login.microsoftonline.com/common/oauth2/v2.0/authorize",
+      "hidden": true,
+      "sensitive": false,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.scope",
+      "kind": "string",
+      "value": "offline_access https://analysis.windows.net/powerbi/api/Dataset.ReadWrite.All",
+      "hidden": true,
+      "sensitive": false,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.access_token",
+      "kind": "string",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.refresh_token",
+      "kind": "string",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.refresh_proxy_url",
+      "kind": "string",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "oauth_credentials.refresh_proxy_url_auth",
+      "kind": "string",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "tenant_id",
+      "kind": "string",
+      "label": "Tenant ID",
+      "description": "Azure AD tenant ID.",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "client_id",
+      "kind": "string",
+      "label": "Client ID",
+      "description": "Azure AD application (client) ID.",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    },
+    {
+      "name": "client_secret",
+      "kind": "string",
+      "label": "Client Secret",
+      "description": "Azure AD application client secret.",
+      "hidden": true,
+      "sensitive": true,
+      "configured": false,
+      "protected": false
+    }
+  ],
+  "commands": {
+    "refresh": {
+      "args": "refresh",
+      "description": "Trigger a Power BI dataset refresh and wait for completion."
+    },
+    "history": {
+      "args": "history",
+      "description": "List recent refresh history for the dataset."
+    },
+    "status": {
+      "args": "status",
+      "description": "Get the status of the most recent (or a specific) refresh."
+    }
+  }
+}
