@@ -4,3 +4,7 @@ timeout: 0
 max_retries: 0
 data_components:
 - powerbi
+- dbt
+actions:
+- powerbi:refresh
+- dbt:test
